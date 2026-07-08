@@ -8,7 +8,10 @@ setup on a new machine.
 
 - `claude/skills/` — personal skills from `~/.claude/skills/`, **except `gstack`**
   (that's its own git repo, ~1.1GB with `node_modules` and browser binaries —
-  see below on how to restore it).
+  see below on how to restore it) **and except the gstack wrapper skills**
+  (thin dirs whose `SKILL.md` is just a symlink into `gstack/<name>/SKILL.md` —
+  listed in `claude/gstack-wrapper-skills.txt`, recreated by `install.sh` after
+  `gstack` is cloned, so no broken symlinks get committed here).
 - `claude/settings.json` — permissions, hooks, enabled plugins, output style.
 - `claude/CLAUDE.md` — global instructions.
 - `claude/mcp/*.json` — MCP server configs (no secrets in these two).

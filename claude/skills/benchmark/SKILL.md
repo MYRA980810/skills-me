@@ -1,1 +1,0 @@
-/Users/christian/.claude/skills/gstack/benchmark/SKILL.md

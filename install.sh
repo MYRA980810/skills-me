@@ -44,6 +44,16 @@ else
   echo "    -> already present, skipping"
 fi
 
+echo "==> Recreating gstack wrapper skills (thin symlink dirs pointing into gstack/)"
+while IFS= read -r name; do
+  [ -z "$name" ] && continue
+  mkdir -p "$CLAUDE_DIR/skills/$name"
+  for entry in "$CLAUDE_DIR/skills/gstack/$name"/*; do
+    [ -e "$entry" ] || continue
+    ln -sf "$entry" "$CLAUDE_DIR/skills/$name/$(basename "$entry")"
+  done
+done < "$REPO_DIR/claude/gstack-wrapper-skills.txt"
+
 echo "==> Re-registering plugin marketplaces and plugins"
 echo "    Run these manually inside a 'claude' session (interactive, needs approval):"
 echo "      /plugin marketplace add Gentleman-Programming/engram"

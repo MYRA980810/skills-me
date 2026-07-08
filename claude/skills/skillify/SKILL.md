@@ -1,1 +1,0 @@
-/Users/christian/.claude/skills/gstack/skillify/SKILL.md

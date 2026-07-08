@@ -1,1 +1,0 @@
-/Users/christian/.claude/skills/gstack/landing-report/SKILL.md

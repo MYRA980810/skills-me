@@ -6,7 +6,21 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 
-rsync -a --delete --exclude 'gstack' "$CLAUDE_DIR/skills/" "$REPO_DIR/claude/skills/"
+echo "==> Refreshing manifest of gstack wrapper skills (symlink-only dirs)"
+: > "$REPO_DIR/claude/gstack-wrapper-skills.txt"
+for d in "$CLAUDE_DIR"/skills/*/; do
+  name="$(basename "$d")"
+  [ -L "$d/SKILL.md" ] && echo "$name" >> "$REPO_DIR/claude/gstack-wrapper-skills.txt"
+done
+sort -o "$REPO_DIR/claude/gstack-wrapper-skills.txt" "$REPO_DIR/claude/gstack-wrapper-skills.txt"
+
+EXCLUDES=(--exclude 'gstack')
+while IFS= read -r name; do
+  [ -z "$name" ] && continue
+  EXCLUDES+=(--exclude "$name")
+done < "$REPO_DIR/claude/gstack-wrapper-skills.txt"
+
+rsync -a --delete "${EXCLUDES[@]}" "$CLAUDE_DIR/skills/" "$REPO_DIR/claude/skills/"
 cp "$CLAUDE_DIR/settings.json"      "$REPO_DIR/claude/settings.json"
 cp "$CLAUDE_DIR/CLAUDE.md"          "$REPO_DIR/claude/CLAUDE.md"
 cp "$CLAUDE_DIR/mcp/"*.json         "$REPO_DIR/claude/mcp/" 2>/dev/null || true

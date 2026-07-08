@@ -1,1 +1,0 @@
-/Users/christian/.claude/skills/gstack/ios-sync/SKILL.md
