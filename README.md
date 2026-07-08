@@ -12,6 +12,20 @@ setup on a new machine.
   (thin dirs whose `SKILL.md` is just a symlink into `gstack/<name>/SKILL.md` —
   listed in `claude/gstack-wrapper-skills.txt`, recreated by `install.sh` after
   `gstack` is cloned, so no broken symlinks get committed here).
+
+## Platform notes
+
+- **macOS**: uses Homebrew for `bat`/`ripgrep`/`fd`/`sd`/`eza`.
+- **Windows (Git Bash)**: `install.sh`/`backup.sh` detect Git Bash (`MINGW*`) and
+  use `cp -r` instead of `rsync` (not bundled with Git for Windows), and
+  [scoop](https://scoop.sh) instead of Homebrew for the CLI tools. Wrapper
+  skills are **copied**, not symlinked — Windows symlinks need admin rights or
+  Developer Mode enabled, so copying avoids that entirely. Downside: if you
+  later `git pull` inside `~/.claude/skills/gstack`, re-run the "recreate
+  wrapper skills" block in `install.sh` to refresh the copies.
+- **gstack on Windows is unverified** — it drives a Chromium browser for some
+  skills (`/browse`, `/qa`, etc.). Check github.com/garrytan/gstack for
+  Windows-specific setup before relying on those.
 - `claude/settings.json` — permissions, hooks, enabled plugins, output style.
 - `claude/CLAUDE.md` — global instructions.
 - `claude/mcp/*.json` — MCP server configs (no secrets in these two).

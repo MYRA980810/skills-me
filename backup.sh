@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Re-syncs the current machine's ~/.claude state into this repo.
 # Run this, review the diff, then commit + push manually.
+# Works under bash on macOS/Linux, and under Git Bash on Windows.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -14,13 +15,16 @@ for d in "$CLAUDE_DIR"/skills/*/; do
 done
 sort -o "$REPO_DIR/claude/gstack-wrapper-skills.txt" "$REPO_DIR/claude/gstack-wrapper-skills.txt"
 
-EXCLUDES=(--exclude 'gstack')
-while IFS= read -r name; do
-  [ -z "$name" ] && continue
-  EXCLUDES+=(--exclude "$name")
-done < "$REPO_DIR/claude/gstack-wrapper-skills.txt"
+echo "==> Syncing skills (excluding gstack itself and its wrapper dirs)"
+rm -rf "$REPO_DIR/claude/skills"
+mkdir -p "$REPO_DIR/claude/skills"
+for d in "$CLAUDE_DIR"/skills/*/; do
+  name="$(basename "$d")"
+  [ "$name" = "gstack" ] && continue
+  grep -qx "$name" "$REPO_DIR/claude/gstack-wrapper-skills.txt" && continue
+  cp -r "$d" "$REPO_DIR/claude/skills/$name"
+done
 
-rsync -a --delete "${EXCLUDES[@]}" "$CLAUDE_DIR/skills/" "$REPO_DIR/claude/skills/"
 cp "$CLAUDE_DIR/settings.json"      "$REPO_DIR/claude/settings.json"
 cp "$CLAUDE_DIR/CLAUDE.md"          "$REPO_DIR/claude/CLAUDE.md"
 cp "$CLAUDE_DIR/mcp/"*.json         "$REPO_DIR/claude/mcp/" 2>/dev/null || true
