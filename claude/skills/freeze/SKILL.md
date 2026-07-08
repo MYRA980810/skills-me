@@ -1,0 +1,1 @@
+/Users/christian/.claude/skills/gstack/freeze/SKILL.md

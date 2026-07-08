@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "plugins": {
+    "engram@engram": [
+      {
+        "scope": "user",
+        "installPath": "/Users/christian/.claude/plugins/cache/engram/engram/0.1.0",
+        "version": "0.1.0",
+        "installedAt": "2026-05-13T01:40:30.045Z",
+        "lastUpdated": "2026-05-13T01:40:30.045Z",
+        "gitCommitSha": "6c5034024a833a19cd80bc7769a020e3dd63d249"
+      }
+    ],
+    "vercel@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/christian/.claude/plugins/cache/claude-plugins-official/vercel/0.44.0",
+        "version": "0.44.0",
+        "installedAt": "2026-05-20T02:42:47.415Z",
+        "lastUpdated": "2026-06-16T02:22:17.504Z",
+        "gitCommitSha": "1edb125d13a29a1e6212f5ca5afcdf1b89b9b211"
+      }
+    ]
+  }
+}
